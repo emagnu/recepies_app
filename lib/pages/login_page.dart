@@ -2,6 +2,7 @@
 //  Import LIBRARIES
 import 'package:flutter/material.dart';
 //  Import FILES
+import '../services/auth_service.dart';
 //  //   ///
 
 class LoginPage extends StatefulWidget {
@@ -12,6 +13,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String? username, password;
+
   final GlobalKey<FormState> _loginFormKey = GlobalKey();
 
   @override
@@ -61,6 +64,13 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             TextFormField(
+              initialValue: 'kminchelle',
+              onSaved: (value) {
+                debugPrint(value);
+                setState(() {
+                  username = value;
+                });
+              },
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a username';
@@ -70,13 +80,21 @@ class _LoginPageState extends State<LoginPage> {
               decoration: const InputDecoration(hintText: 'Username'),
             ),
             TextFormField(
+              initialValue: '0lelplR',
+              onSaved: (value) {
+                debugPrint(value);
+                setState(() {
+                  password = value;
+                });
+              },
+              obscureText: true,
               validator: (value) {
                 if (value == null || value.length < 5) {
-                  return 'Please enter a email';
+                  return 'Please enter a password';
                 }
                 return null;
               },
-              decoration: const InputDecoration(hintText: 'Email'),
+              decoration: const InputDecoration(hintText: 'Password'),
             ),
             _loginButton(),
           ],
@@ -89,9 +107,19 @@ class _LoginPageState extends State<LoginPage> {
     return SizedBox(
       width: MediaQuery.sizeOf(context).width * 0.60,
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           if (_loginFormKey.currentState?.validate() ?? false) {
-            // TODO: Login
+            _loginFormKey.currentState?.save();
+            bool result = await AuthService().login(username!, password!);
+            // if (result) {
+            //   Navigator.pushReplacementNamed(context, '/home');
+            // } else {
+            //   ScaffoldMessenger.of(context).showSnackBar(
+            //     const SnackBar(
+            //       content: Text('Login failed'),
+            //     ),
+
+            debugPrint("$username - $password");
           }
         },
         child: const Text(

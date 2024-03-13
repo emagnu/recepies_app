@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'pages/login_page.dart';
 //  OTHER
 // https://dummyjson.com/docs/auth - https://dummyjson.com/auth/login - https://dummyjson.com/docs/recipes
+// https://app.quicktype.io/ - Null Safety: ON and Generate CopyWith method: ON.
 //  //   ///
 
 void main() {
