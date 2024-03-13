@@ -1,6 +1,7 @@
 //  ///
 //  Import LIBRARIES
 import 'package:flutter/material.dart';
+import 'package:status_alert/status_alert.dart';
 //  Import FILES
 import '../services/auth_service.dart';
 //  //   ///
@@ -108,6 +109,7 @@ class _LoginPageState extends State<LoginPage> {
       width: MediaQuery.sizeOf(context).width * 0.60,
       child: ElevatedButton(
         onPressed: () async {
+          debugPrint("$username - $password");
           if (_loginFormKey.currentState?.validate() ?? false) {
             _loginFormKey.currentState?.save();
             bool result = await AuthService().login(username!, password!);
@@ -119,7 +121,16 @@ class _LoginPageState extends State<LoginPage> {
             //       content: Text('Login failed'),
             //     ),
 
-            debugPrint("$username - $password");
+            debugPrint(result.toString());
+            if (result) {
+            } else {
+              StatusAlert.show(context,
+                  duration: const Duration(seconds: 2),
+                  title: 'Login failed',
+                  subtitle: 'Please try aghain',
+                  configuration: const IconConfiguration(icon: Icons.error),
+                  maxWidth: 260.0);
+            }
           }
         },
         child: const Text(
